@@ -4,8 +4,6 @@
 
 Construir uma **API REST** para gerenciar **beneficiários** de um plano de saúde. O sistema deve permitir **CRUD**, aplicar **regras de negócio básicas**, persistir os dados em **banco relacional**, possuir **testes de unidade** e **documentação** (Swagger/OpenAPI).
 
-> Liberdade Tecnológica: Este desafio é **completamente agnóstico** de linguagem e framework. Você tem **total liberdade** para escolher qualquer stack tecnológico com o qual se sinta mais confortável e produtivo.
-
 ---
 
 ## Escopo Funcional
@@ -46,36 +44,9 @@ Construir uma **API REST** para gerenciar **beneficiários** de um plano de saú
 
 ### 3) Operações REST (mínimo)
 
-#### Planos
+* CRUD de Planos baseados nos dados de exemplo
 
-* `POST /api/planos` — cria plano
-* `GET /api/planos` — lista todos
-* `GET /api/planos/{id}` — detalhe
-* `PUT /api/planos/{id}` — atualiza
-* `DELETE /api/planos/{id}` — remove (se preferir soft delete, documente)
-
-#### Beneficiários
-
-* `POST /api/beneficiarios` — cria beneficiário
-* `GET /api/beneficiarios` — listar; filtros: `status`, `plano_id`
-* `GET /api/beneficiarios/{id}` — detalhe
-* `PUT /api/beneficiarios/{id}` — atualiza (inclusive `status` e a ligação com `plano_id`)
-* `DELETE /api/beneficiarios/{id}` — remove
-
-#### Exemplos de payloads
-
-```json
-// POST /api/planos
-{ "nome": "Plano Ouro", "codigo_registro_ans": "ANS-123456" }
-
-// POST /api/beneficiarios
-{
-  "nome_completo": "Maria da Silva",
-  "cpf": "12345678909",
-  "data_nascimento": "1990-05-20",
-  "plano_id": "uuid-do-plano"
-}
-```
+* CRUD de Beneficiários baseados nos dados de exemplo
 
 ### 4) Respostas & Erros
 
@@ -91,6 +62,19 @@ Construir uma **API REST** para gerenciar **beneficiários** de um plano de saú
   "details": [{"field":"cpf","rule":"invalid"}]
 }
 ```
+
+### 5) Padrões de Arquitetura & Design
+Espera-se que o código não apenas "funcione", mas que seja **sustentável, testável e desacoplado**.
+* **Camada de Domínio Isolada:** As regras de negócio (validação de CPF, regras de vínculo de plano) devem estar em uma camada de domínio pura, sem dependência direta de frameworks Web ou ORMs (estilo *Clean Architecture* ou *Vertical Slice*).
+* **Tratamento de Erros Global:** Implementar um mediador ou interceptador de exceções centralizado, garantindo que a API responda em um formato padronizado (ex: RFC 7807) para qualquer falha.
+* **Injeção de Dependência:** Uso obrigatório de inversão de controle para facilitar a substituição de componentes (como o Banco de Dados ou serviços de Terceiros) e a criação de Mocks nos testes.
+
+### 6) Escalabilidade & Performance (Requisitos Não Funcionais)
+* **Estratégia de Paginação:** O endpoint de listagem de beneficiários (`GET /api/beneficiarios`) **não deve** retornar todos os registros de uma vez. Implemente paginação (via *Offset* ou *Seek*) com limites de tamanho de página configuráveis.
+* **Proteção de Atributos (Mass Assignment):** Garanta que a API aceite apenas os campos permitidos no contrato (ex: impedir que um usuário altere o campo `data_cadastro` através de um `PUT` malicioso).
+* **Observabilidade Inicial:**
+    * **Health Check:** Disponibilizar um endpoint `/health` que retorne o status da aplicação e a conectividade com o Banco de Dados.
+    * **Logging Estruturado:** Os logs de erro e requisição devem ser estruturados (ex: formato JSON), permitindo futura ingestão em ferramentas de análise.
 
 ---
 
@@ -128,6 +112,24 @@ Construir uma **API REST** para gerenciar **beneficiários** de um plano de saú
   * Como rodar **testes**
   * Decisões de projeto (trade-offs)
   * Exemplos de requisições (curl ou HTTPie)
+
+#### Para este desafio, a documentação é tão importante quanto o código:
+
+1.  **Diagrama de Arquitetura:** Entregar um diagrama (pode ser C4 Model - Nível 2, ou um diagrama de blocos simples) que ilustre a topologia da solução (API, DB, Camadas Internas).
+2.  **Registro de Decisões (ADR - Architectural Decision Records):** No README, inclua uma seção justificando pelo menos **três decisões técnicas** tomadas. Exemplos:
+    * Por que escolheu esse padrão de pastas/arquitetura?
+    * Por que escolheu essa estratégia de Paginação?
+    * Como você lidou com a integridade referencial entre Beneficiário e Plano?
+3.  **Análise de Trade-offs:** Cite uma limitação da sua implementação atual e como você a resolveria se o sistema precisasse escalar para 1 milhão de beneficiários ativos.
+
+
+## Desafio Teórico
+**Pergunta de Design:**
+Imagine que, após a criação de um beneficiário, o sistema precise:
+1.  Enviar um e-mail de boas-vindas.
+2.  Notificar um sistema externo de Auditoria Governamental.
+
+Descreva brevemente (no README) como você alteraria a arquitetura para garantir que a API continue rápida e que uma falha no sistema de e-mail não impeça a criação do beneficiário.
 
 ## Dados de Exemplo
 
@@ -186,6 +188,9 @@ Beneficiários:
   * Testes
   * README
   * Swagger/OpenAPI
+  * Documentação
+  * Padrões de Arquitetura e Design
+  * (Bônus) Escalabilidade & Performance
   * (Bônus) `docker-compose.yml`
 
 ### Como rodar (exemplo esperado no README)
