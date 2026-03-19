@@ -65,7 +65,10 @@ Construir uma **API REST** para gerenciar **beneficiários** de um plano de saú
 
 ### 5) Padrões de Arquitetura & Design
 Espera-se que o código não apenas "funcione", mas que seja **sustentável, testável e desacoplado**.
-* **Camada de Domínio Isolada:** As regras de negócio (validação de CPF, regras de vínculo de plano) devem estar em uma camada de domínio pura, sem dependência direta de frameworks Web ou ORMs (estilo *Clean Architecture* ou *Vertical Slice*).
+
+#### Implemente uma arquitetura que atenda os requisitos a seguir: 
+
+* **Camada de Domínio Isolada:** Regras de negócio (validação de CPF, regras de vínculo de plano) devem estar em uma camada de domínio pura, sem dependência direta de frameworks Web ou ORMs .
 * **Tratamento de Erros Global:** Implementar um mediador ou interceptador de exceções centralizado, garantindo que a API responda em um formato padronizado (ex: RFC 7807) para qualquer falha.
 * **Injeção de Dependência:** Uso obrigatório de inversão de controle para facilitar a substituição de componentes (como o Banco de Dados ou serviços de Terceiros) e a criação de Mocks nos testes.
 
@@ -191,6 +194,7 @@ Beneficiários:
   * Documentação
   * Padrões de Arquitetura e Design
   * (Bônus) Escalabilidade & Performance
+  * (Bônus) Desafio Teórico
   * (Bônus) `docker-compose.yml`
 
 ### Como rodar (exemplo esperado no README)
