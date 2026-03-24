@@ -1,51 +1,54 @@
-﻿using Application.Repositories; 
+﻿using Domain.Repositories; 
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
 
 public class BeneficiaryRepository(AppDbContext context) : IBeneficiaryRepository
 {
 
-    public Beneficiary Create(Beneficiary beneficiary)
+    public async Task<Beneficiary> CreateAsync(Beneficiary beneficiary)
     {
-        context.Beneficiaries.Add(beneficiary);
-        context.SaveChanges();
+        await context.Beneficiaries.AddAsync(beneficiary);
+        await context.SaveChangesAsync();
         return beneficiary;
     }
 
-    public void Delete(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
-        var beneficiary = context.Beneficiaries.Find(id);
+        var beneficiary = await context.Beneficiaries.FirstOrDefaultAsync(b => b.Id == id);
 
         if (beneficiary == null)
         {
             throw new ArgumentNullException("The Beneficiary with id = " + id + " does not exist");
         }
         context.Beneficiaries.Remove(beneficiary);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 
-    public Beneficiary Update(Guid id, Beneficiary beneficiaryToUpdate)
+    public async Task<Beneficiary> UpdateAsync(Guid id, Beneficiary beneficiaryToUpdate)
     {
-        var beneficiary = context.Beneficiaries.Find(id);
+        var beneficiary = await context.Beneficiaries.FirstOrDefaultAsync(b => b.Id == id);
+        
         if (beneficiary == null)
         {
             throw new ArgumentNullException("The Beneficiary with id = " + id + " does not exist");
         }
+        
         context.Beneficiaries.Update(beneficiaryToUpdate);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         return beneficiaryToUpdate;
     }
 
-    public Beneficiary Get(Guid id)
+    public async Task<Beneficiary> GetByIdAsync(Guid id)
     {
-        var beneficiary = context.Beneficiaries.Find(id);
+        var beneficiary = await context.Beneficiaries.FirstOrDefaultAsync(b => b.Id == id);
         return beneficiary ?? throw new ArgumentNullException("The Beneficiary with id = " + id + " not found");
     }
 
-    public IEnumerable<Beneficiary> GetAll()
+    public async Task<List<Beneficiary>> GetAllAsync()
     {
-        var beneficiaries = context.Beneficiaries.ToList();
+        var beneficiaries = await context.Beneficiaries.ToListAsync();
         return beneficiaries;
     }
 }
