@@ -1,8 +1,7 @@
-﻿namespace Domain;
+﻿namespace Domain.Enums;
 
 public enum Status
 {
-    Actived = 1,
+    Active = 1,
     Inactive = 2
-    
 }
