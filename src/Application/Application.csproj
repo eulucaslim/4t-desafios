@@ -7,11 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repositories\IRepository.cs" />
+    <Compile Remove="Abstractions\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Abstractions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Abstractions\**" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,9 @@ namespace Application.Repositories;
 public interface IBeneficiaryRepository
 {
     Beneficiary Create(Beneficiary beneficiary);
-    Beneficiary GetById(Guid beneficiaryId);
-    void Delete(Guid beneficiaryId);
-    List<Beneficiary> GetAll();
+    void Delete(Guid id);
+    Beneficiary? Update(Guid id, Beneficiary beneficiary);
+    Beneficiary? Get(Guid id);
+    IEnumerable<Beneficiary> GetAll();
+    
 }

@@ -1,6 +1,6 @@
 ﻿namespace Application.UseCases.Beneficiary;
 
-public class CreateBeneficiaryCase
+public sealed class CreateBeneficiaryCase
 {
     
 }
