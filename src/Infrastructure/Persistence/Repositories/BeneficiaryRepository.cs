@@ -22,7 +22,6 @@ public sealed class BeneficiaryRepository(AppDbContext context) : IBeneficiaryRe
 
     public async Task<Beneficiary> UpdateAsync(Guid id, Beneficiary beneficiaryToUpdate)
     {
-        var beneficiary = await context.Beneficiaries.FirstOrDefaultAsync(b => b.Id == id);
         context.Beneficiaries.Update(beneficiaryToUpdate);
         await context.SaveChangesAsync();
         return beneficiaryToUpdate;
