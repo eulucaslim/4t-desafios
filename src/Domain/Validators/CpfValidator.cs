@@ -3,7 +3,7 @@ using Domain.Exceptions;
 
 namespace Domain.Validators;
 
-public static class CpfValidator
+public class CpfValidator: IValidator
 {
     private const string RegexPattern = @"^\d{11}$";
     private const int ValidLength = 11;
