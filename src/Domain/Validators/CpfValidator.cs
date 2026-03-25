@@ -8,13 +8,13 @@ public class CpfValidator: IValidator
     private const string RegexPattern = @"^\d{11}$";
     private const int ValidLength = 11;
     
-    public static void IsValid(string cpf)
+    public static void IsValid(string value)
     {
-        if (cpf.Length != ValidLength)
+        if (value.Length != ValidLength)
         {
             throw new InvalidLengthException("O CPF não possui 11 caracteres, verifique a quantidade correta!");
         }
-        if (!Regex.IsMatch(cpf, RegexPattern))
+        if (!Regex.IsMatch(value, RegexPattern))
         {
             throw new InvalidCpfException("Todos os valores do CPF devem ser números!");
         }
@@ -23,13 +23,13 @@ public class CpfValidator: IValidator
 
         for (int i = 10; i > 1; i--)
         {
-            sumOfMultiples += i * Convert.ToInt32(cpf[i]);
+            sumOfMultiples += i * Convert.ToInt32(value[i]);
         }
 
         int restOfDivision = sumOfMultiples % 11;
         int firstDigit = restOfDivision < 2 ? 0 : 11 - restOfDivision;
 
-        if (firstDigit != Convert.ToInt32(cpf[9]))
+        if (firstDigit != Convert.ToInt32(value[9]))
         {
             throw new InvalidCpfException("O CPF é Inválido!");
         }
@@ -37,12 +37,12 @@ public class CpfValidator: IValidator
         sumOfMultiples = 0;
         for (int i = 10; i > 1; i++)
         {
-            sumOfMultiples += i * Convert.ToInt32(cpf[i]);
+            sumOfMultiples += i * Convert.ToInt32(value[i]);
         } 
         restOfDivision = sumOfMultiples % 11;
         int secondDigit = restOfDivision < 2 ? 0 : 11 - restOfDivision;
 
-        if (secondDigit != Convert.ToInt32(cpf[10]))
+        if (secondDigit != Convert.ToInt32(value[10]))
         {
             throw new InvalidCpfException("O CPF é Inválido!");
         }
