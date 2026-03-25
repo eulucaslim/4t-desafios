@@ -1,7 +1,9 @@
 ﻿using Application.Abstractions;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 using Domain.Repositories;
+using Domain.Validators;
 
 namespace Application.UseCases.BeneficiaryUseCases;
 
@@ -9,6 +11,7 @@ public record CreateBeneficiaryRequest(
     string FullName,
     string Cpf,
     DateOnly BirthDate,
+    Status Status,
     Guid PlanId
     );
 
@@ -24,14 +27,36 @@ public record CreateBeneficiaryResponse(
 
 public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository) : IUseCase<CreateBeneficiaryRequest, CreateBeneficiaryResponse>
 {
-    public Task<CreateBeneficiaryResponse> Handle(CreateBeneficiaryRequest request)
+    public async Task<CreateBeneficiaryResponse> Handle(CreateBeneficiaryRequest request)
     {
+        var beneficiary = await repository.GetByCpfAsync(request.Cpf);
+        if (beneficiary != null)
+        {
+            throw new EntityAlreadyExists(
+                "Beneficiario com esse CPF " + beneficiary.Cpf +" já existe!"
+                );
+        }
         var entity = new Beneficiary(
             request.FullName,
             request.Cpf,
             request.BirthDate,
+            request.Status,
             request.PlanId
         );
+        
+        CpfValidator.IsValid(entity.Cpf);
+        var beneficiaryCreated  = await repository.CreateAsync(entity);
+
+        return new CreateBeneficiaryResponse(
+            beneficiaryCreated.Id,
+            beneficiaryCreated.FullName,
+            beneficiaryCreated.Cpf,
+            beneficiaryCreated.BirthDate,
+            beneficiaryCreated.RegistrationDate,
+            beneficiaryCreated.Status,
+            beneficiaryCreated.PlanId
+        );
+
     }
 }
 

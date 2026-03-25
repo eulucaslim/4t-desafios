@@ -19,12 +19,13 @@ public class Beneficiary
 
     public Beneficiary() { }
 
-    public Beneficiary(string fullName, string cpf, DateOnly birthDate, Guid planId)
+    public Beneficiary(string fullName, string cpf, DateOnly birthDate, Status status, Guid planId)
     {
         Id = Guid.CreateVersion7();
         FullName = fullName;
         Cpf = cpf;
         BirthDate = birthDate;
+        Status = status;
         PlanId = planId;
     }
 }

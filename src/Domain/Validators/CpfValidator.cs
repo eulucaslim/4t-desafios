@@ -3,12 +3,12 @@ using Domain.Exceptions;
 
 namespace Domain.Validators;
 
-public sealed class CpfValidator
+public static class CpfValidator
 {
     private const string RegexPattern = @"^\d{11}$";
     private const int ValidLength = 11;
     
-    public bool IsValid(string cpf)
+    public static void IsValid(string cpf)
     {
         if (cpf.Length != ValidLength)
         {
@@ -46,7 +46,6 @@ public sealed class CpfValidator
         {
             throw new InvalidCpfException("O CPF é Inválido!");
         }
-        return true;
 
     }
 }

@@ -40,10 +40,14 @@ public class BeneficiaryRepository(AppDbContext context) : IBeneficiaryRepositor
         return beneficiaryToUpdate;
     }
 
-    public async Task<Beneficiary> GetByIdAsync(Guid id)
+    public async Task<Beneficiary?> GetByIdAsync(Guid id)
     {
-        var beneficiary = await context.Beneficiaries.FirstOrDefaultAsync(b => b.Id == id);
-        return beneficiary ?? throw new ArgumentNullException("The Beneficiary with id = " + id + " not found");
+        return await context.Beneficiaries.FirstOrDefaultAsync(b => b.Id == id);
+    }
+
+    public async Task<Beneficiary?> GetByCpfAsync(string cpf)
+    {
+        return await context.Beneficiaries.FirstOrDefaultAsync(b => b.Cpf == cpf);
     }
 
     public async Task<List<Beneficiary>> GetAllAsync()
