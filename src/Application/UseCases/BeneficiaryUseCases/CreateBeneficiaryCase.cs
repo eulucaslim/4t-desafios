@@ -1,46 +1,28 @@
 ﻿using Application.Abstractions;
+using Application.DTOs.Requests;
+using Application.DTOs.Responses;
 using Domain.Entities;
-using Domain.Enums;
 using Domain.Exceptions;
 using Domain.Repositories;
 using Domain.Validators;
 
 namespace Application.UseCases.BeneficiaryUseCases;
 
-public record CreateBeneficiaryRequest(
-    string FullName,
-    string Cpf,
-    DateOnly BirthDate,
-    Status Status,
-    Guid PlanId
-    );
-
-public record CreateBeneficiaryResponse(
-    Guid Id,
-    string FullName,
-    string Cpf,
-    DateOnly BirthDate,
-    DateTime RegistrationDate,
-    Status Status,
-    Guid PlanId
-    );
-
-public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPlanRepository planRepository) : IUseCase<CreateBeneficiaryRequest, CreateBeneficiaryResponse>
+public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPlanRepository planRepository)
+    : IUseCase<CreateBeneficiaryRequest, CreateBeneficiaryResponse>
 {
     public async Task<CreateBeneficiaryResponse> Handle(CreateBeneficiaryRequest request)
     {
         CpfValidator.IsValid(request.Cpf);
-        
+
         var beneficiary = await repository.GetByCpfAsync(request.Cpf);
         if (beneficiary != null)
-        {
             throw new EntityAlreadyExists(
-                "Beneficiario com esse CPF " + beneficiary.Cpf +" já existe!"
-                );
-        }
-        
+                "Beneficiario com esse CPF " + beneficiary.Cpf + " já existe!"
+            );
+
         var plan = await planRepository.GetByIdAsync(request.PlanId);
-        
+
         var entity = new Beneficiary(
             request.FullName,
             request.Cpf,
@@ -48,8 +30,8 @@ public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPl
             request.Status,
             plan!.Id
         );
-        
-        var beneficiaryCreated  = await repository.CreateAsync(entity);
+
+        var beneficiaryCreated = await repository.CreateAsync(entity);
 
         return new CreateBeneficiaryResponse(
             beneficiaryCreated.Id,
@@ -60,7 +42,5 @@ public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPl
             beneficiaryCreated.Status,
             beneficiaryCreated.PlanId
         );
-
     }
 }
-

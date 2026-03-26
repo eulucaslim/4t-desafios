@@ -10,5 +10,4 @@ public interface IPlanRepository
     Task<Plan?> GetByIdAsync(Guid id);
     Task<Plan?> GetByAnsCode(string code);
     Task<List<Plan>> GetAllAsync();
-    
 }

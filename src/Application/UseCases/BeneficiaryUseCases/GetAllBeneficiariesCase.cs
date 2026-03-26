@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Application.Abstractions;
-using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.UseCases.BeneficiaryUseCases;

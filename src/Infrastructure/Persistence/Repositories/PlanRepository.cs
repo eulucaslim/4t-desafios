@@ -1,12 +1,11 @@
-﻿using Domain.Repositories; 
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
 
 public sealed class PlanRepository(AppDbContext context) : IPlanRepository
 {
-
     public async Task<Plan> CreateAsync(Plan plan)
     {
         await context.Plans.AddAsync(plan);

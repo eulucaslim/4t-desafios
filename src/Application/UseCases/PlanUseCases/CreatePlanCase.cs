@@ -9,13 +9,13 @@ namespace Application.UseCases.PlanUseCases;
 public record CreatePlanRequest(
     string Name,
     string AnsRegistrationCode
-    );
+);
 
 public record CreatePlanResponse(
     Guid Id,
     string Name,
     string AnsRegistrationCode
-    );
+);
 
 public sealed class CreatePlanCase(IPlanRepository repository) : IUseCase<CreatePlanRequest, CreatePlanResponse>
 {
@@ -23,19 +23,17 @@ public sealed class CreatePlanCase(IPlanRepository repository) : IUseCase<Create
     {
         // Validation first
         AnsRegistrationCodeValidator.IsValid(request.AnsRegistrationCode);
-        
+
         var plan = await repository.GetByAnsCode(request.AnsRegistrationCode);
         if (plan != null)
-        {
             throw new EntityAlreadyExists(
-                "Plano com esse Código de Registro Ans " + plan.AnsRegistrationCode +" já existe!"
-                );
-        }
+                "Plano com esse Código de Registro Ans " + plan.AnsRegistrationCode + " já existe!"
+            );
         var entity = new Plan(
-           request.Name,
-           request.AnsRegistrationCode
+            request.Name,
+            request.AnsRegistrationCode
         );
-        
+
         var planCreated = await repository.CreateAsync(entity);
 
         return new CreatePlanResponse(
@@ -43,7 +41,5 @@ public sealed class CreatePlanCase(IPlanRepository repository) : IUseCase<Create
             planCreated.Name,
             planCreated.AnsRegistrationCode
         );
-
     }
 }
-

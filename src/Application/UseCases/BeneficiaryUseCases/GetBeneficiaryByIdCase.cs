@@ -5,7 +5,7 @@ using Domain.Repositories;
 
 namespace Application.UseCases.BeneficiaryUseCases;
 
-public sealed class GetBeneficiaryByIdCase(IBeneficiaryRepository repository): IUseCase<Guid, Beneficiary>
+public sealed class GetBeneficiaryByIdCase(IBeneficiaryRepository repository) : IUseCase<Guid, Beneficiary>
 {
     public async Task<Beneficiary> Handle(Guid id)
     {

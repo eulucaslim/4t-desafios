@@ -10,5 +10,4 @@ public interface IBeneficiaryRepository
     Task<Beneficiary?> GetByIdAsync(Guid id);
     Task<Beneficiary?> GetByCpfAsync(string cpf);
     Task<List<Beneficiary>> GetAllAsync();
-    
 }
