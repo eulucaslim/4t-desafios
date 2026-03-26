@@ -25,10 +25,12 @@ public record CreateBeneficiaryResponse(
     Guid PlanId
     );
 
-public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository) : IUseCase<CreateBeneficiaryRequest, CreateBeneficiaryResponse>
+public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPlanRepository planRepository) : IUseCase<CreateBeneficiaryRequest, CreateBeneficiaryResponse>
 {
     public async Task<CreateBeneficiaryResponse> Handle(CreateBeneficiaryRequest request)
     {
+        CpfValidator.IsValid(request.Cpf);
+        
         var beneficiary = await repository.GetByCpfAsync(request.Cpf);
         if (beneficiary != null)
         {
@@ -36,15 +38,17 @@ public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository) : I
                 "Beneficiario com esse CPF " + beneficiary.Cpf +" já existe!"
                 );
         }
+        
+        var plan = await planRepository.GetByIdAsync(request.PlanId);
+        
         var entity = new Beneficiary(
             request.FullName,
             request.Cpf,
             request.BirthDate,
             request.Status,
-            request.PlanId
+            plan!.Id
         );
         
-        CpfValidator.IsValid(entity.Cpf);
         var beneficiaryCreated  = await repository.CreateAsync(entity);
 
         return new CreateBeneficiaryResponse(
