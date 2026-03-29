@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions;
+using Application.DTOs.Requests;
+using Application.DTOs.Responses;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
@@ -6,20 +8,9 @@ using Domain.Validators;
 
 namespace Application.UseCases.PlanUseCases;
 
-public record CreatePlanRequest(
-    string Name,
-    string AnsRegistrationCode
-);
-
-public record CreatePlanResponse(
-    Guid Id,
-    string Name,
-    string AnsRegistrationCode
-);
-
-public sealed class CreatePlanCase(IPlanRepository repository) : IUseCase<CreatePlanRequest, CreatePlanResponse>
+public sealed class CreatePlanCase(IPlanRepository repository) : IUseCase<PlanRequest, PlanResponse>
 {
-    public async Task<CreatePlanResponse> Handle(CreatePlanRequest request)
+    public async Task<PlanResponse> Handle(PlanRequest request)
     {
         // Validation first
         AnsRegistrationCodeValidator.IsValid(request.AnsRegistrationCode);
@@ -36,7 +27,7 @@ public sealed class CreatePlanCase(IPlanRepository repository) : IUseCase<Create
 
         var planCreated = await repository.CreateAsync(entity);
 
-        return new CreatePlanResponse(
+        return new PlanResponse(
             planCreated.Id,
             planCreated.Name,
             planCreated.AnsRegistrationCode

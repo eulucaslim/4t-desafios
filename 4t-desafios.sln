@@ -6,15 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 	ProjectSection(SolutionItems) = preProject
 		src\Api\Api.http = src\Api\Api.http
-		src\Api\appsettings.Development.json = src\Api\appsettings.Development.json
-		src\Api\appsettings.json = src\Api\appsettings.json
 		src\Api\obj\Api.csproj.nuget.dgspec.json = src\Api\obj\Api.csproj.nuget.dgspec.json
 		src\Api\obj\Api.csproj.nuget.g.props = src\Api\obj\Api.csproj.nuget.g.props
 		src\Api\obj\Api.csproj.nuget.g.targets = src\Api\obj\Api.csproj.nuget.g.targets
-		src\Api\obj\project.assets.json = src\Api\obj\project.assets.json
-		src\Api\obj\project.nuget.cache = src\Api\obj\project.nuget.cache
 		src\Api\Program.cs = src\Api\Program.cs
-		src\Api\Properties\launchSettings.json = src\Api\Properties\launchSettings.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{BFAFBB4F-5D5D-4AE0-B0ED-0302247D3174}"

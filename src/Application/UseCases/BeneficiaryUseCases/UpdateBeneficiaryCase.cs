@@ -1,21 +1,21 @@
-﻿using Api.Dto.Requests;
-using Api.Dto.Responses;
-using Application.Abstractions;
+﻿using Application.Abstractions;
+using Application.DTOs.Requests;
+using Application.DTOs.Responses;
 using Domain.Exceptions;
 using Domain.Repositories;
 
 namespace Application.UseCases.BeneficiaryUseCases;
 
 public class UpdateBeneficiaryCase(IBeneficiaryRepository repository)
-    : IUseCase<Guid, UpdateBeneficiaryRequest, UpdateBeneficiaryResponse>
+    : IUseCase<Guid, BeneficiaryRequest, BeneficiaryResponse>
 {
-    public async Task<UpdateBeneficiaryResponse> Handle(Guid id, UpdateBeneficiaryRequest request)
+    public async Task<BeneficiaryResponse> Handle(Guid id, BeneficiaryRequest request)
     {
         var beneficiary = await repository.GetByIdAsync(id);
         if (beneficiary == null) throw new EntityNotFound("The Beneficiary with id = " + id + " not found");
         var beneficiaryUpdated = await repository.UpdateAsync(id, beneficiary);
 
-        return new UpdateBeneficiaryResponse(
+        return new BeneficiaryResponse(
             beneficiaryUpdated.Id,
             beneficiaryUpdated.FullName,
             beneficiaryUpdated.Cpf,

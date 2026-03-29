@@ -2,7 +2,7 @@
 
 namespace Application.DTOs.Responses;
 
-public record CreateBeneficiaryResponse(
+public record BeneficiaryResponse(
     Guid Id,
     string FullName,
     string Cpf,

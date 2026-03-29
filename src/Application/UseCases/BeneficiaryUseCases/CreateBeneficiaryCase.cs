@@ -9,9 +9,9 @@ using Domain.Validators;
 namespace Application.UseCases.BeneficiaryUseCases;
 
 public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPlanRepository planRepository)
-    : IUseCase<CreateBeneficiaryRequest, CreateBeneficiaryResponse>
+    : IUseCase<BeneficiaryRequest, BeneficiaryResponse>
 {
-    public async Task<CreateBeneficiaryResponse> Handle(CreateBeneficiaryRequest request)
+    public async Task<BeneficiaryResponse> Handle(BeneficiaryRequest request)
     {
         CpfValidator.IsValid(request.Cpf);
 
@@ -33,7 +33,7 @@ public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPl
 
         var beneficiaryCreated = await repository.CreateAsync(entity);
 
-        return new CreateBeneficiaryResponse(
+        return new BeneficiaryResponse(
             beneficiaryCreated.Id,
             beneficiaryCreated.FullName,
             beneficiaryCreated.Cpf,

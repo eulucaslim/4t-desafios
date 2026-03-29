@@ -2,7 +2,7 @@
 
 namespace Application.DTOs.Requests;
 
-public record CreateBeneficiaryRequest(
+public record BeneficiaryRequest(
     string FullName,
     string Cpf,
     DateOnly BirthDate,
