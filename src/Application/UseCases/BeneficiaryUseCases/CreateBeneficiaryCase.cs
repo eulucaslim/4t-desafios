@@ -39,7 +39,7 @@ public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPl
             beneficiaryCreated.Cpf,
             beneficiaryCreated.BirthDate,
             beneficiaryCreated.RegistrationDate,
-            beneficiaryCreated.Status,
+            beneficiaryCreated.Status.ToString(),
             beneficiaryCreated.PlanId
         );
     }

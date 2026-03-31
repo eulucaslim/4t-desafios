@@ -8,6 +8,6 @@ public record BeneficiaryResponse(
     string Cpf,
     DateOnly BirthDate,
     DateTime RegistrationDate,
-    Status Status,
+    string Status,
     Guid PlanId
 );

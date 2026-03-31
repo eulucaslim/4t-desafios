@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.UseCases.PlanUseCases;
 
-public sealed class DeletePlanCase(IPlanRepository repository): IUseCase<Guid>
+public sealed class DeletePlanCase(IPlanRepository repository): IUseCaseWithoutResponse<Guid>
 {
     public async Task Handle(Guid id)
     {

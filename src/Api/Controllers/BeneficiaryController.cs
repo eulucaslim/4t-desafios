@@ -42,7 +42,7 @@ public sealed class BeneficiaryController(
     public async Task<ActionResult<Beneficiary>> Update(Guid id,
         [FromBody] BeneficiaryRequest request)
     {
-        var response = await updateUseCase.Handle(id,request);
+        var response = await updateUseCase.Handle(id, request);
         return Ok(response);
     }
     

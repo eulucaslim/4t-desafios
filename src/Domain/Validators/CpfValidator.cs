@@ -21,28 +21,28 @@ public class CpfValidator: IValidator
 
         int sumOfMultiples = 0;
 
-        for (int i = 10; i > 1; i--)
+        for (int i = 0; i < 9; i++)
         {
-            sumOfMultiples += i * Convert.ToInt32(value[i]);
+            sumOfMultiples += ( 10 - i ) * Convert.ToInt32(value[i].ToString());
         }
 
         int restOfDivision = sumOfMultiples % 11;
         int firstDigit = restOfDivision < 2 ? 0 : 11 - restOfDivision;
 
-        if (firstDigit != Convert.ToInt32(value[9]))
+        if (firstDigit != Convert.ToInt32(value[9].ToString()))
         {
             throw new InvalidCpfException("O CPF é Inválido!");
         }
 
         sumOfMultiples = 0;
-        for (int i = 10; i > 1; i++)
+        for (int i = 0; i < 10; i++)
         {
-            sumOfMultiples += i * Convert.ToInt32(value[i]);
+            sumOfMultiples += (11 - i) * Convert.ToInt32(value[i].ToString());
         } 
         restOfDivision = sumOfMultiples % 11;
         int secondDigit = restOfDivision < 2 ? 0 : 11 - restOfDivision;
 
-        if (secondDigit != Convert.ToInt32(value[10]))
+        if (secondDigit != Convert.ToInt32(value[10].ToString()))
         {
             throw new InvalidCpfException("O CPF é Inválido!");
         }

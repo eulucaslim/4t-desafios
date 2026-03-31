@@ -7,17 +7,17 @@ public interface IUseCase<in TRequest, TResponse>
     Task<TResponse> Handle(TRequest request);
 }
 
-public interface IUseCase<in TId, in TRequest, TResponse>
+public interface IUseCaseWithId<in TId, in TRequest, TResponse>
 {
     Task<TResponse> Handle(TId id, TRequest request);
 }
 
-public interface IUseCase<in TRequest>
+public interface IUseCaseWithoutResponse<in TRequest>
 {
     Task Handle(TRequest request);
 }
 
-public interface IUseCase
+public interface IUseCaseCollection
 {
     Task<ICollection> Handle();
 }

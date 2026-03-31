@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.UseCases.BeneficiaryUseCases;
 
-public sealed class DeleteBeneficiaryCase(IBeneficiaryRepository repository) : IUseCase<Guid>
+public sealed class DeleteBeneficiaryCase(IBeneficiaryRepository repository) : IUseCaseWithoutResponse<Guid>
 {
     public async Task Handle(Guid id)
     {
