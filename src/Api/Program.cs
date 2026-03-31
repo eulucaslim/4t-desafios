@@ -1,3 +1,4 @@
+using Api.Exceptions;
 using Infrastructure;
 using Scalar.AspNetCore;
 
@@ -8,6 +9,8 @@ builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddUseCases();
 builder.Services.AddControllers();
 builder.Services.AddMappers();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
@@ -18,7 +21,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseExceptionHandler();
 app.MapControllers();
 app.Run();
 
