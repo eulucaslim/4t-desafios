@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Interfaces.BeneficiaryUseCases;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Domain.Entities;
@@ -9,7 +10,7 @@ using Domain.Validators;
 namespace Application.UseCases.BeneficiaryUseCases;
 
 public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPlanRepository planRepository)
-    : IUseCase<BeneficiaryRequest, BeneficiaryResponse>
+    : ICreateBeneficiaryCase
 {
     public async Task<BeneficiaryResponse> Handle(BeneficiaryRequest request)
     {

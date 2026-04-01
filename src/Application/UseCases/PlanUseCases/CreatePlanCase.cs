@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Interfaces.PlanUseCases;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Domain.Entities;
@@ -8,7 +9,7 @@ using Domain.Validators;
 
 namespace Application.UseCases.PlanUseCases;
 
-public sealed class CreatePlanCase(IPlanRepository repository) : IUseCase<PlanRequest, PlanResponse>
+public sealed class CreatePlanCase(IPlanRepository repository) : ICreatePlanCase
 {
     public async Task<PlanResponse> Handle(PlanRequest request)
     {

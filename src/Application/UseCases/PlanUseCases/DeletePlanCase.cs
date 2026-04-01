@@ -1,10 +1,11 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Interfaces.PlanUseCases;
 using Domain.Exceptions;
 using Domain.Repositories;
 
 namespace Application.UseCases.PlanUseCases;
 
-public sealed class DeletePlanCase(IPlanRepository repository): IUseCaseWithoutResponse<Guid>
+public sealed class DeletePlanCase(IPlanRepository repository) : IDeletePlanCase
 {
     public async Task Handle(Guid id)
     {

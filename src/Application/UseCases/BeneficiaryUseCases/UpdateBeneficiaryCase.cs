@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Interfaces.BeneficiaryUseCases;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Application.Mappers;
@@ -8,7 +9,7 @@ using Domain.Repositories;
 namespace Application.UseCases.BeneficiaryUseCases;
 
 public class UpdateBeneficiaryCase(IBeneficiaryRepository repository, BeneficiaryMapper mapper)
-    : IUseCaseWithId<Guid, BeneficiaryRequest, BeneficiaryResponse>
+    : IUpdateBeneficiaryCase
 {
     public async Task<BeneficiaryResponse> Handle(Guid id, BeneficiaryRequest request)
     {

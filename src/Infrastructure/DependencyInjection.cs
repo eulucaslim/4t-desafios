@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Interfaces.BeneficiaryUseCases;
 using Application.Mappers;
 using Application.UseCases.BeneficiaryUseCases;
 using Application.UseCases.PlanUseCases;
@@ -25,11 +26,11 @@ public static class DependencyInjection
 
     public static IServiceCollection AddUseCases(this IServiceCollection services)
     {
-        services.AddScoped<CreateBeneficiaryCase>();
-        services.AddScoped<GetAllBeneficiariesCase>();
-        services.AddScoped<GetBeneficiaryByIdCase>();
-        services.AddScoped<UpdateBeneficiaryCase>();
-        services.AddScoped<DeleteBeneficiaryCase>();
+        services.AddScoped<ICreateBeneficiaryCase, CreateBeneficiaryCase>();
+        services.AddScoped<IGetAllBeneficiariesCase, GetAllBeneficiariesCase>();
+        services.AddScoped<IGetBeneficiaryByIdCase, GetBeneficiaryByIdCase>();
+        services.AddScoped<IUpdateBeneficiaryCase, UpdateBeneficiaryCase>();
+        services.AddScoped<IDeleteBeneficiaryCase, DeleteBeneficiaryCase>();
         
         services.AddScoped<CreatePlanCase>();
         services.AddScoped<GetAllPlansCase>();

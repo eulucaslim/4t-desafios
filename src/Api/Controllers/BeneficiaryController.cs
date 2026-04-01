@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Requests;
+﻿using Application.Abstractions.Interfaces.BeneficiaryUseCases;
+using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Application.UseCases.BeneficiaryUseCases;
 using Domain.Entities;
@@ -11,10 +12,10 @@ namespace Api.Controllers;
 [Route("api/beneficiaries")]
 [Produces("application/json")]
 public sealed class BeneficiaryController(
-    CreateBeneficiaryCase createUseCase,
-    GetAllBeneficiariesCase getAllUseCase,
-    GetBeneficiaryByIdCase getByIdUseCase,
-    UpdateBeneficiaryCase updateUseCase)
+    ICreateBeneficiaryCase createUseCase,
+    IGetAllBeneficiariesCase getAllUseCase,
+    IGetBeneficiaryByIdCase getByIdUseCase,
+    IUpdateBeneficiaryCase updateUseCase)
     : ControllerBase
 {
     [HttpPost]

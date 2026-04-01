@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Interfaces.BeneficiaryUseCases;
+using Application.Abstractions.Interfaces.PlanUseCases;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Application.Mappers;
@@ -9,7 +11,7 @@ using Domain.Validators;
 
 namespace Application.UseCases.PlanUseCases;
 
-public class UpdatePlanCase(IPlanRepository repository, PlanMapper mapper) : IUseCaseWithId<Guid, PlanRequest, PlanResponse>
+public class UpdatePlanCase(IPlanRepository repository, PlanMapper mapper) : IUpdatePlanCase
 {
     public async Task<PlanResponse> Handle(Guid id, PlanRequest request)
     {

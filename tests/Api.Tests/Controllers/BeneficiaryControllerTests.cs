@@ -1,9 +1,11 @@
 ﻿using Api.Controllers;
+using Application.Abstractions.Interfaces.BeneficiaryUseCases;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Application.UseCases.BeneficiaryUseCases;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -12,10 +14,12 @@ namespace Api.Tests.Controllers;
 public class BeneficiaryControllerTests
 {
     // UseCases
-    private readonly Mock<CreateBeneficiaryCase> _createMock;
-    private readonly Mock<GetAllBeneficiariesCase> _getAllMock;
-    private readonly Mock<GetBeneficiaryByIdCase> _getByIdMock;
-    private readonly Mock<UpdateBeneficiaryCase> _updateMock;
+    private readonly Mock<ICreateBeneficiaryCase> _createMock;
+    private readonly Mock<IGetAllBeneficiariesCase> _getAllMock;
+    private readonly Mock<IGetBeneficiaryByIdCase> _getByIdMock;
+    private readonly Mock<IUpdateBeneficiaryCase> _updateMock;
+    
+    // Controller
     private readonly BeneficiaryController _controller;
     
     // Dtos e Entidade
@@ -28,12 +32,27 @@ public class BeneficiaryControllerTests
         Status.Active,
         Plan.Id
     );
+    
+    private static readonly BeneficiaryRequest RequestError = new BeneficiaryRequest(
+        "Luan Santana",
+        "12343123123",
+        DateOnly.Parse("2002-12-05"),
+        Status.Active,
+        Plan.Id
+    );
 
     private static readonly Beneficiary Entity = new Beneficiary(
         Request.FullName,
         Request.Cpf,
         Request.BirthDate,
         Request.Status,
+        Plan.Id);
+    
+    private static readonly Beneficiary EntityError = new Beneficiary(
+        RequestError.FullName,
+        RequestError.Cpf,
+        RequestError.BirthDate,
+        RequestError.Status,
         Plan.Id);
     
     private static readonly BeneficiaryResponse Response = new BeneficiaryResponse(
@@ -46,12 +65,22 @@ public class BeneficiaryControllerTests
         Plan.Id
         );
     
+    private static readonly BeneficiaryResponse ResponseError = new BeneficiaryResponse(
+        EntityError.Id,
+        EntityError.FullName,
+        EntityError.Cpf,
+        EntityError.BirthDate,
+        EntityError.RegistrationDate,
+        EntityError.Status.ToString(),
+        Plan.Id
+    );
+    
     public BeneficiaryControllerTests()
     {
-        _createMock = new Mock<CreateBeneficiaryCase>();
-        _getAllMock = new Mock<GetAllBeneficiariesCase>();
-        _getByIdMock = new Mock<GetBeneficiaryByIdCase>();
-        _updateMock = new Mock<UpdateBeneficiaryCase>();
+        _createMock = new Mock<ICreateBeneficiaryCase>();
+        _getAllMock = new Mock<IGetAllBeneficiariesCase>();
+        _getByIdMock = new Mock<IGetBeneficiaryByIdCase>();
+        _updateMock = new Mock<IUpdateBeneficiaryCase>();
         
         _controller = new BeneficiaryController(
             _createMock.Object, 
@@ -64,7 +93,8 @@ public class BeneficiaryControllerTests
     public async Task Create_WhenUseCaseSucceeds_ReturnsCreated()
     {
         // Arrange
-        _createMock.Setup(uc => uc.Handle(Request))
+        _createMock
+            .Setup(uc => uc.Handle(It.IsAny<BeneficiaryRequest>()))
             .ReturnsAsync(Response);
 
         // Act
@@ -72,6 +102,7 @@ public class BeneficiaryControllerTests
 
         // Assert
         var created = Assert.IsType<CreatedResult>(result.Result);
+
         Assert.Equal($"api/beneficiaries/{Response.Id}", created.Location);
         Assert.Equal(Response, created.Value);
     }
@@ -79,10 +110,27 @@ public class BeneficiaryControllerTests
     [Fact]
     public async Task Create_ShouldCallHandleOnce()
     {
+        // Arrange
         _createMock.Setup(uc => uc.Handle(Request)).ReturnsAsync(Response);
 
+        // Act
         await _controller.Create(Request);
+        
+        // Assert
+        _createMock.Verify(uc => uc.Handle(Request), Times.Once);
+    }
+    
+    [Fact]
+    public async Task Create_CpfValidatorError()
+    {
+        // Arrange
+        _createMock.Setup(uc => 
+            uc.Handle(RequestError)).ReturnsAsync(ResponseError);
 
+        // Act
+        await _controller.Create(Request);
+        
+        // Assert
         _createMock.Verify(uc => uc.Handle(Request), Times.Once);
     }
 }

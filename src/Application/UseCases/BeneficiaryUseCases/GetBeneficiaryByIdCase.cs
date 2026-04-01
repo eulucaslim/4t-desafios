@@ -1,11 +1,12 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Interfaces.BeneficiaryUseCases;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
 
 namespace Application.UseCases.BeneficiaryUseCases;
 
-public sealed class GetBeneficiaryByIdCase(IBeneficiaryRepository repository) : IUseCase<Guid, Beneficiary>
+public sealed class GetBeneficiaryByIdCase(IBeneficiaryRepository repository) : IGetBeneficiaryByIdCase
 {
     public async Task<Beneficiary> Handle(Guid id)
     {
