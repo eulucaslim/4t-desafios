@@ -23,6 +23,11 @@ public sealed class CreateBeneficiaryCase(IBeneficiaryRepository repository, IPl
 
         var plan = await planRepository.GetByIdAsync(request.PlanId);
 
+        if (plan == null)
+        {
+            throw new EntityNotFound("Plan" + request.PlanId + "Not Found");
+        }
+
         var entity = new Beneficiary(
             request.FullName,
             request.Cpf,
