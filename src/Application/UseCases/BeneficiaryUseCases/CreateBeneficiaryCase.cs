@@ -1,5 +1,4 @@
-﻿using Application.Abstractions;
-using Application.Abstractions.Interfaces.BeneficiaryUseCases;
+﻿using Application.Abstractions.Interfaces.BeneficiaryUseCases;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
 using Domain.Entities;
