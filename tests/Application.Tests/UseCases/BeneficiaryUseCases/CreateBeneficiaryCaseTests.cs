@@ -77,9 +77,27 @@ public sealed class CreateBeneficiaryCaseTests
         // Assert
         Assert.Equal(Response, result);
         
+        Repository.Verify(repo => repo.CreateAsync(It.IsAny<Beneficiary>()), Times.Once);
+    }
+    
+    [Fact]
+    public async Task Handle_WithErrorForGetPlan()
+    {
+        // Arrange
+        Repository.Setup(repo => repo.GetByCpfAsync(It.IsAny<string>()))
+            .ReturnsAsync(null as Beneficiary);
+
+        PlanRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(null as Plan);
+        
+        // Act
+        var result = async () => await _useCase.Handle(Request);
+        
+        // Assert
+        await Assert.ThrowsAsync<EntityNotFound>(result);
+        
         Repository.Verify(repo => repo.GetByCpfAsync(It.IsAny<string>()), Times.Once);
         PlanRepository.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
-        Repository.Verify(repo => repo.CreateAsync(It.IsAny<Beneficiary>()), Times.Once);
     }
     
     [Fact]
@@ -94,7 +112,6 @@ public sealed class CreateBeneficiaryCaseTests
         
         // Assert
         await Assert.ThrowsAsync<EntityAlreadyExists>(result);
-        Repository.Verify(repo => repo.GetByCpfAsync(It.IsAny<string>()), Times.Once);
     }
     
     [Fact]

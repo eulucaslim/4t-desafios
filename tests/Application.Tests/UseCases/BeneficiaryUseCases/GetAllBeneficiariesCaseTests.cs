@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Application.UseCases.BeneficiaryUseCases;
+﻿using Application.UseCases.BeneficiaryUseCases;
 using Domain.Entities;
 using Domain.Repositories;
 using Moq;

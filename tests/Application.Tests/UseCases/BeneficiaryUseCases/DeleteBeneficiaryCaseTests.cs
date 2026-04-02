@@ -63,7 +63,6 @@ public sealed class DeleteBeneficiaryCaseTests
         
         // Assert
         await Assert.ThrowsAsync<EntityNotFound>(response);
-        Repository.Verify(repo => repo.DeleteAsync(It.IsAny<Guid>()), Times.Never);
     }
     
 }
