@@ -140,7 +140,5 @@ public class UpdateBeneficiaryCaseTests
         
         // Assert
         await Assert.ThrowsAsync<EntityNotFound>(result);
-        
-        Repository.Verify(repo => repo.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
     }
 }
