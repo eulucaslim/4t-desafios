@@ -19,6 +19,11 @@ public class CpfValidator: IValidator
             throw new InvalidCpfException("Todos os valores do CPF devem ser números!");
         }
 
+        if (value.Distinct().Count() == 1)
+        {
+            throw new InvalidCpfException("Não deve ter numeros iguais no CPF!");
+        }
+
         int sumOfMultiples = 0;
 
         for (int i = 0; i < 9; i++)
