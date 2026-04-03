@@ -11,6 +11,11 @@ public class Plan
         AnsRegistrationCode = ansRegistrationCode;
     }
 
+    public Plan()
+    {
+        
+    }
+
     public Guid Id { get; set; }
 
     [Required(ErrorMessage = "O nome deve ser inserido", AllowEmptyStrings = false)]
