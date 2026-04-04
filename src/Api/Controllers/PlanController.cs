@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/plan")]
+[Route("api/plans")]
 [Produces("application/json")]
 public sealed class PlanController(
     CreatePlanCase createUseCase,
@@ -20,7 +20,7 @@ public sealed class PlanController(
     public async Task<ActionResult<PlanResponse>> Create([FromBody] PlanRequest request)
     {
         var response = await createUseCase.Handle(request);
-        return Created($"api/plan/{response.Id}", response);
+        return Created($"api/plans/{response.Id}", response);
     }
 
     [HttpGet("{id}")]
