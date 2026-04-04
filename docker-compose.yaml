@@ -1,0 +1,26 @@
+﻿services:
+  db:
+    container_name: db
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_INIT_DB: ${POSTGRES_DB:-4tech_desafio}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    container_name: 4tech-api
+    build:
+      context: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Username=postgres;Password=postgres;Database=4tech_desafio;"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+volumes:
+  postgres_data:
