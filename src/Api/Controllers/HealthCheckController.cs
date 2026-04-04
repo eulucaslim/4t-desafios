@@ -5,7 +5,7 @@ namespace Api.Controllers;
 [ApiController]
 [Route("/")]
 [Produces("application/json")]
-public class HeathCheckController: ControllerBase
+public class HealthCheckController: ControllerBase
 {
     [HttpGet]
     public ActionResult<Dictionary<string,string>> Get()
